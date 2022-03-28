@@ -4,49 +4,54 @@ import java.text.MessageFormat;
 
 public class WeatherReporter {
 
-    public String location;
-    public double temperature;
+    private String location;
+    private double temperature;
+    private static final double NINE = 9.0;
+    private static final double FIVE = 5.0;
+    private static final int THIRTY_TWO = 32;
+    private static final int MAX_TEMP = 30;
+    private static final int MIN_TEMP = 10;
 
     public WeatherReporter(String location, double temperature) {
         this.location = location;
         this.temperature = temperature;
     }
 
-    public String print() {
+    public String displayWeatherMessage() {
 
-        double newTemp = (9.0 / 5.0) * temperature + 32;
-        return MessageFormat.format("I am in {0} and it is {1}. {2}. The temperature in Fahrenheit is {3}.", location, check1(), check2(), newTemp);
+        double temperature_F = (NINE / FIVE) * temperature + THIRTY_TWO;
+        return MessageFormat.format("I am in {0} and it is {1}. {2}. The temperature in Fahrenheit is {3}.", location, loc_based_icon(), temp_based_message(), temperature_F);
 
     }
 
-    public String check1() {
-        if (location == "London") {
-
-            return "🌦";
-
-        } else if (location == "California") {
-
-            return "🌅";
-
-        } else if (location == "Cape Town") {
-
-            return "🌤";
-
+    public String loc_based_icon() {
+        String strIcon = "";
+        switch (location){
+            case "London":
+                strIcon = "🌦";
+                break;
+            case "California":
+                strIcon = "🌅";
+                break;
+            case "Cape Town":
+                strIcon = "🌤";
+                break;
+            default:
+                strIcon = "🔆";
+                break;
         }
-        return "🔆";
+        return strIcon;
+
     }
 
-    public String check2() {
-        if (temperature > 30) {
-
+    public String temp_based_message() {
+        if (temperature > MAX_TEMP) {
             return "It's too hot 🥵!";
-
-        } else if (temperature < 10) {
-
+        } else if (temperature < MIN_TEMP) {
             return "It's too cold 🥶!";
-
         }
         return "Ahhh...it's just right 😊!";
     }
 
 }
+
